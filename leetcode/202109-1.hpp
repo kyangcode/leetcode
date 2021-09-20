@@ -6,23 +6,27 @@
 */
 
 #include <string>
-#include <set>
-using namespace std;
 
 class Solution {
 public:
-	int lengthOfLongestSubstring(string s) {
+	int lengthOfLongestSubstring(std::string s) {
+		bool arr[256] = { false }; // hash表，用来判断字符串是否有重复字符
+
 		size_t maxLen = 0;
-		for (size_t i = 0; i < s.length(); i++) {
-			set<char> tmp;
+		size_t len = s.length();
+		for (size_t i = 0; i < len; i++) {
+			// 求当前不含重复字符最大的字符串长度并存储在curLen中
 			size_t curLen = 0;
-			for (size_t j = i; j < s.length(); j++) {
-				pair<set<char>::iterator, bool> p = tmp.insert(s[j]);
-				if (!p.second) {
+			memset(arr, 0, sizeof(arr));
+			for (size_t j = i; j < len; j++) {
+				char ch = s[j];
+				if (arr[ch]) {
 					break;
 				}
+				arr[ch] = true;
 				curLen++;
 			}
+
 			if (curLen > maxLen) {
 				maxLen = curLen;
 			}
